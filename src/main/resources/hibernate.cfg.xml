@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<hibernate-configuration>
+    <session-factory>
+        <property name="hibernate.connection.driver_class">oracle.jdbc.driver.OracleDriver</property>
+        <property name="hibernate.connection.url">jdbc:oracle:thin:@//bdlog660.ens.ad.etsmtl.ca:1521/ORCLPDB.ens.ad.etsmtl.ca</property>
+        <property name="hibernate.connection.username">EQUIPE206</property>
+        <property name="hibernate.connection.password">NulxJFxU</property>
+        <property name="hibernate.dialect">org.hibernate.dialect.OracleDialect</property>
+        <property name="hibernate.show_sql">true</property>
+
+        <!-- Example entity mapping -->
+        <mapping class="com.equipe6.model.Film"/>
+        <mapping class="com.equipe6.model.BandeAnnonce"/>
+        <mapping class="com.equipe6.model.Client"/>
+        <mapping class="com.equipe6.model.Copie"/>
+        <mapping class="com.equipe6.model.DomaineCarteCredit"/>
+        <mapping class="com.equipe6.model.DomaineCopie"/>
+        <mapping class="com.equipe6.model.DomaineForfait"/>
+        <mapping class="com.equipe6.model.Employe"/>
+        <mapping class="com.equipe6.model.Film"/>
+        <mapping class="com.equipe6.model.FilmGenre"/>
+        <mapping class="com.equipe6.model.FilmGenreId"/>
+        <mapping class="com.equipe6.model.FilmPays"/>
+        <mapping class="com.equipe6.model.FilmPaysId"/>
+        <mapping class="com.equipe6.model.FilmScenariste"/>
+        <mapping class="com.equipe6.model.FilmScenaristeId"/>
+        <mapping class="com.equipe6.model.Forfait"/>
+        <mapping class="com.equipe6.model.Genre"/>
+        <mapping class="com.equipe6.model.Location"/>
+        <mapping class="com.equipe6.model.Personne"/>
+        <mapping class="com.equipe6.model.PaysProduction"/>
+        <mapping class="com.equipe6.model.Role"/>
+        <mapping class="com.equipe6.model.Scenariste"/>
+        <mapping class="com.equipe6.model.Utilisateur"/>
+    </session-factory>
+</hibernate-configuration>
