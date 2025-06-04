@@ -12,7 +12,18 @@ public class FilmDAO {
 
     public Film findById(String id) {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            return session.get(Film.class, id);
+            Query<Film> query = session.createQuery(
+                    "SELECT f FROM Film f " +
+                            "LEFT JOIN FETCH f.realisateur r " +
+                            "LEFT JOIN FETCH f.roles role " +
+                            "LEFT JOIN FETCH role.acteur " +
+                            "LEFT JOIN FETCH f.scenaristes " +
+                            "LEFT JOIN FETCH f.genres " +
+                            "LEFT JOIN FETCH f.paysProduction " +
+                            "WHERE f.idFilm = :id", Film.class
+            );
+            query.setParameter("id", id);
+            return query.uniqueResult();
         }
     }
 
@@ -22,9 +33,9 @@ public class FilmDAO {
             transaction = session.beginTransaction();
 
             if (film.getIdFilm() == null) {
-                session.persist(film); // Insert new entity
+                session.persist(film);
             } else {
-                session.merge(film);   // Update existing (detached) entity
+                session.merge(film);
             }
 
             transaction.commit();
@@ -38,10 +49,8 @@ public class FilmDAO {
         Transaction transaction = null;
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             transaction = session.beginTransaction();
-
-            Film managedFilm = session.merge(film); // Ensure attached
-            session.remove(managedFilm);            // Delete
-
+            Film managed = session.merge(film);
+            session.remove(managed);
             transaction.commit();
         } catch (Exception e) {
             if (transaction != null) transaction.rollback();
@@ -51,10 +60,18 @@ public class FilmDAO {
 
     public List<Film> searchByParams(Map<String, String[]> params) {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            StringBuilder hql = new StringBuilder("SELECT DISTINCT f FROM Film f ");
-            Set<String> joins = new HashSet<>();
+            StringBuilder hql = new StringBuilder("SELECT f FROM Film f ");
+            Set<String> joins = new LinkedHashSet<>();
             List<String> conditions = new ArrayList<>();
             Map<String, Object> queryParams = new HashMap<>();
+
+            // Always fetch required relationships
+            joins.add("LEFT JOIN FETCH f.realisateur r");
+            joins.add("LEFT JOIN FETCH f.roles role");
+            joins.add("LEFT JOIN FETCH role.acteur");
+            joins.add("LEFT JOIN FETCH f.scenaristes");
+            joins.add("LEFT JOIN FETCH f.genres");
+            joins.add("LEFT JOIN FETCH f.paysProduction");
 
             // Filters
             if (params.containsKey("titre")) {
@@ -63,12 +80,12 @@ public class FilmDAO {
             }
 
             if (params.containsKey("anneeMin")) {
-                conditions.add("f.annee >= :anneeMin");
+                conditions.add("f.anneeSortie >= :anneeMin");
                 queryParams.put("anneeMin", Integer.parseInt(params.get("anneeMin")[0]));
             }
 
             if (params.containsKey("anneeMax")) {
-                conditions.add("f.annee <= :anneeMax");
+                conditions.add("f.anneeSortie <= :anneeMax");
                 queryParams.put("anneeMax", Integer.parseInt(params.get("anneeMax")[0]));
             }
 
@@ -78,23 +95,17 @@ public class FilmDAO {
             }
 
             if (params.containsKey("pays")) {
-                joins.add("JOIN f.paysProductions pp");
-                conditions.add("pp.nomPays IN (:pays)");
+                conditions.add("p.nomPays IN (:pays)");
                 queryParams.put("pays", Arrays.asList(params.get("pays")));
             }
 
             if (params.containsKey("genre")) {
-                joins.add("JOIN f.genres fg");
-                conditions.add("fg.nomGenre IN (:genres)");
+                conditions.add("g.nomGenre IN (:genres)");
                 queryParams.put("genres", Arrays.asList(params.get("genre")));
             }
 
-            // Always fetch the realisateur
-            joins.add("JOIN FETCH f.realisateur r");
-
-            // Compose final HQL
             for (String join : joins) {
-                hql.append(" ").append(join).append(" ");
+                hql.append(" ").append(join);
             }
 
             if (!conditions.isEmpty()) {

@@ -1,5 +1,7 @@
 package com.equipe6.dto;
 
+import java.util.List;
+
 public class FilmDTO {
     private String idFilm;
     private String titre;
@@ -10,11 +12,16 @@ public class FilmDTO {
     private String affiche;
     private String nomRealisateur;
 
-    // Constructors
+//    private List<String> genres;
+//    private List<String> pays;
+    private List<String> scenaristes;
+    private List<RoleDTO> roles;
+
     public FilmDTO() {}
 
     public FilmDTO(String idFilm, String titre, int anneeSortie, String langue, int duree,
-                   String resume, String affiche, String nomRealisateur) {
+                   String resume, String affiche, String nomRealisateur,
+                   List<RoleDTO> roles) {
         this.idFilm = idFilm;
         this.titre = titre;
         this.anneeSortie = anneeSortie;
@@ -23,9 +30,13 @@ public class FilmDTO {
         this.resume = resume;
         this.affiche = affiche;
         this.nomRealisateur = nomRealisateur;
+//        this.genres = genres;
+//        this.pays = pays;
+//        this.scenaristes = scenaristes;
+        this.roles = roles;
     }
 
-    // Getters and setters
+    // Getters and Setters
     public String getIdFilm() { return idFilm; }
     public void setIdFilm(String idFilm) { this.idFilm = idFilm; }
 
@@ -49,4 +60,16 @@ public class FilmDTO {
 
     public String getNomRealisateur() { return nomRealisateur; }
     public void setNomRealisateur(String nomRealisateur) { this.nomRealisateur = nomRealisateur; }
+
+//    public List<String> getGenres() { return genres; }
+//    public void setGenres(List<String> genres) { this.genres = genres; }
+//
+//    public List<String> getPays() { return pays; }
+//    public void setPays(List<String> pays) { this.pays = pays; }
+
+//    public List<String> getScenaristes() { return scenaristes; }
+//    public void setScenaristes(List<String> scenaristes) { this.scenaristes = scenaristes; }
+
+    public List<RoleDTO> getRoles() { return roles; }
+    public void setRoles(List<RoleDTO> roles) { this.roles = roles; }
 }

@@ -1,5 +1,6 @@
 package com.equipe6.resources;
 
+import com.equipe6.dto.FilmDTO;
 import com.equipe6.facade.FilmFacade;
 import com.equipe6.model.Film;
 
@@ -18,9 +19,9 @@ public class FilmResource {
     @GET
     @Path("/{id}")
     public Response getFilmById(@PathParam("id") String id) {
-        Film film = filmFacade.getFilmById(id);
-        return film != null
-                ? Response.ok(film).build()
+        FilmDTO dto = filmFacade.getFilmById(id);
+        return (dto != null)
+                ? Response.ok(dto).build()
                 : Response.status(Response.Status.NOT_FOUND).entity("Film introuvable").build();
     }
 
@@ -31,8 +32,9 @@ public class FilmResource {
                         Map.Entry::getKey,
                         e -> e.getValue().toArray(new String[0])
                 ));
-        List<Film> films = filmFacade.searchFilms(params);
-        return Response.ok(films).build();
+
+        List<FilmDTO> dtos = filmFacade.searchFilms(params);
+        return Response.ok(dtos).build();
     }
 
     // Optional health check

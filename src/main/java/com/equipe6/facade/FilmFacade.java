@@ -1,40 +1,53 @@
 package com.equipe6.facade;
 
 import com.equipe6.dao.FilmDAO;
+import com.equipe6.dto.FilmDTO;
 import com.equipe6.model.Film;
 
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class FilmFacade {
 
     private final FilmDAO filmDAO = new FilmDAO();
 
-    /**
-     * Retrieve a film by ID
-     */
-    public Film getFilmById(String id) {
-        return filmDAO.findById(id);
+    public FilmDTO getFilmById(String id) {
+        Film film = filmDAO.findById(id);
+        return (film != null) ? toDTO(film) : null;
     }
 
-    /**
-     * Search films based on dynamic criteria (delegates to DAO)
-     */
-    public List<Film> searchFilms(Map<String, String[]> params) {
-        return filmDAO.searchByParams(params);
+    public List<FilmDTO> searchFilms(Map<String, String[]> params) {
+        List<Film> films = filmDAO.searchByParams(params);
+        return films.stream()
+                .map(this::toDTO)
+                .collect(Collectors.toList());
     }
 
-    /**
-     * Save or update a film (delegates to DAO)
-     */
-    public void saveFilm(Film film) {
-        filmDAO.save(film);
-    }
+    private FilmDTO toDTO(Film film) {
+        return new FilmDTO(
+                film.getIdFilm(),                                // idFilm
+                film.getTitre(),                                 // titre
+                film.getAnneeSortie(),                           // anneeSortie
+                film.getLangue(),                                // langue
+                film.getDuree(),                                 // duree
+                film.getResume(),                                // resume
+                film.getAffiche(),                               // affiche
+                film.getRealisateur() != null
+                        ? film.getRealisateur().getNom()
+                        : null,                                      // nomRealisateur
+                // scenaristes
+//                film.getScenaristes().stream()
+//                        .map(s -> s.getNom())
+//                        .collect(Collectors.toList()),
 
-    /**
-     * Delete a film
-     */
-    public void deleteFilm(Film film) {
-        filmDAO.delete(film);
+                // roles
+                film.getRoles().stream()
+                        .map(role -> new com.equipe6.dto.RoleDTO(
+                                role.getActeur() != null ? role.getActeur().getNom() : null,
+                                role.getPersonnage()
+                        ))
+                        .collect(Collectors.toList())
+        );
     }
 }

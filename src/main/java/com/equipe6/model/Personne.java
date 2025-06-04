@@ -32,11 +32,9 @@ public class Personne {
     private String biographie;
 
     @OneToMany(mappedBy = "realisateur", cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
-    @JsonIgnore
     private Set<Film> filmsRealises = new HashSet<>();
 
     @OneToMany(mappedBy = "acteur", cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
-    @JsonIgnore
     private Set<Role> rolesActeur = new HashSet<>();
 
     // Getters and Setters

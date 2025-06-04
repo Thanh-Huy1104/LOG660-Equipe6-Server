@@ -39,19 +39,15 @@ public class Film {
     private Personne realisateur;
 
     @OneToMany(mappedBy = "film", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
-    @JsonIgnore
     private Set<Copie> copies = new HashSet<>();
 
     @OneToMany(mappedBy = "film", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
-    @JsonIgnore
     private Set<BandeAnnonce> bandeAnnonces = new HashSet<>();
 
     @OneToMany(mappedBy = "film", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
-    @JsonIgnore
     private Set<Role> roles = new HashSet<>();
 
     @ManyToMany(fetch = FetchType.LAZY)
-    @JsonIgnore
     @JoinTable(
             name = "\"FilmGenre\"",
             joinColumns = @JoinColumn(name = "\"idFilm\""),
@@ -60,7 +56,6 @@ public class Film {
     private Set<Genre> genres = new HashSet<>();
 
     @ManyToMany(fetch = FetchType.LAZY)
-    @JsonIgnore
     @JoinTable(
             name = "\"FilmPays\"",
             joinColumns = @JoinColumn(name = "\"idFilm\""),
@@ -69,7 +64,6 @@ public class Film {
     private Set<PaysProduction> paysProduction = new HashSet<>();
 
     @ManyToMany(fetch = FetchType.LAZY)
-    @JsonIgnore
     @JoinTable(
             name = "\"FilmScenariste\"",
             joinColumns = @JoinColumn(name = "\"idFilm\""),
