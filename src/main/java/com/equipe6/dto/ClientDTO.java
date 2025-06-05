@@ -5,6 +5,7 @@ import com.equipe6.model.Utilisateur;
 
 public class ClientDTO {
     private String idUser; // Unique identifier for the client
+    private String motDePasse;
     private String prenom;
     private String nom;
     private String courriel;
@@ -14,6 +15,7 @@ public class ClientDTO {
     public ClientDTO(Client client) {
         Utilisateur u = client.getUtilisateur();
         this.idUser = u.getIdUser();
+        this.motDePasse = u.getMotDePasse(); // Assuming you want to include the password
         this.prenom = u.getPrenom();
         this.nom = u.getNom();
         this.courriel = u.getCourriel();
@@ -25,6 +27,8 @@ public class ClientDTO {
     // Getters and Setters
     public String getIdUser() { return idUser; }
     public void setIdUser(String idUser) { this.idUser = idUser; }
+    public String getMotDePasse() { return motDePasse; }
+    public void setMotDePasse(String motDePasse) { this.motDePasse = motDePasse; }
     public String getPrenom() { return prenom; }
     public void setPrenom(String prenom) { this.prenom = prenom; }
     public String getNom() { return nom; }
