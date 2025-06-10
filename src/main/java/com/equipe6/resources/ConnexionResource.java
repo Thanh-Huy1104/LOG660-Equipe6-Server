@@ -20,7 +20,7 @@ public class ConnexionResource {
     ) {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             Query<Client> query = session.createQuery(
-                    "SELECT c FROM Client c LEFT JOIN c.utilisateur u WHERE u.courriel = :email AND u.motDePasse = :pwd",
+                    "SELECT c FROM Client c LEFT JOIN FETCH c.utilisateur u WHERE u.courriel = :email AND u.motDePasse = :pwd",
                     Client.class
             );
             query.setParameter("email", email);
@@ -28,7 +28,7 @@ public class ConnexionResource {
             Client client = query.uniqueResult();
 
             if (client != null) {
-                return Response.ok(client).build(); // return JSON object of client
+                return Response.ok().build(); // return JSON object of client
             } else {
                 return Response.status(Response.Status.UNAUTHORIZED)
                         .entity("Invalid email or password")
