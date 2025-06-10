@@ -16,7 +16,7 @@ public class Location {
     private Date dateDebut;
 
     @Temporal(TemporalType.DATE)
-    @Column(name = "\"dateFin\"", nullable = false)
+    @Column(name = "\"dateFin\"", nullable = true)
     private Date dateFin;
 
     @Temporal(TemporalType.DATE)
@@ -49,4 +49,16 @@ public class Location {
 
     public Copie getCopie() { return copie; }
     public void setCopie(Copie copie) { this.copie = copie; }
+
+    @Override
+    public String toString() {
+        return "Location{" +
+                "idLocation='" + idLocation + '\'' +
+                ", dateDebut=" + dateDebut +
+                ", dateFin=" + dateFin +
+                ", dateRetourEffectif=" + dateRetourEffectif +
+                ", client=" + (client != null ? client.getIdUser() : "null") +
+                ", copie=" + (copie != null ? copie.getCode() : "null") +
+                '}';
+    }
 }

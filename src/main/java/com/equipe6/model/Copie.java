@@ -35,4 +35,13 @@ public class Copie {
 
     public Set<Location> getLocations() { return locations; }
     public void setLocations(Set<Location> locations) { this.locations = locations; }
+
+    @Override
+    public String toString() {
+        return "Copie{" +
+                "code='" + code + '\'' +
+                ", film=" + (film != null ? film.getIdFilm() : "null") +
+                ", domaineCopie=" + (domaineCopie != null ? domaineCopie.getEtat() : "null") +
+                '}';
+    }
 }

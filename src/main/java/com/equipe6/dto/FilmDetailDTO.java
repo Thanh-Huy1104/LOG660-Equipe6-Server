@@ -16,15 +16,15 @@ public class FilmDetailDTO {
     private List<String> scenaristes;
     private List<String> annonces;
     private List<RoleDTO> roles;
+    private long nombreCopiesDisponibles;
 
-    public FilmDetailDTO() {
-    }
+    public FilmDetailDTO() {};
 
     public FilmDetailDTO(String idFilm, String titre, int anneeSortie, String langue, int duree,
                          String resume, String affiche, String nomRealisateur,
                          List<String> genres, List<String> pays,
                          List<String> scenaristes,
-                         List<RoleDTO> roles, List<String> annonces) {
+                         List<RoleDTO> roles, List<String> annonces, long nombreCopiesDisponibles) {
         this.idFilm = idFilm;
         this.titre = titre;
         this.anneeSortie = anneeSortie;
@@ -38,6 +38,7 @@ public class FilmDetailDTO {
         this.scenaristes = scenaristes;
         this.roles = roles;
         this.annonces = annonces;
+        this.nombreCopiesDisponibles = nombreCopiesDisponibles;
     }
 
     // Getters and Setters
@@ -121,6 +122,14 @@ public class FilmDetailDTO {
         this.annonces = annonces;
     }
 
+    public long getNombreCopiesDisponibles() {
+        return nombreCopiesDisponibles;
+    }
+
+    public void setNombreCopiesDisponibles(long nombreCopiesDisponibles) {
+        this.nombreCopiesDisponibles = nombreCopiesDisponibles;
+    }
+
     @Override
     public String toString() {
         return "FilmDetailDTO{" +
@@ -137,6 +146,7 @@ public class FilmDetailDTO {
                 ", scenaristes=" + scenaristes +
                 ", roles=" + roles +
                 ", annonces=" + annonces +
+                ", nombreCopiesDisponibles=" + nombreCopiesDisponibles +
                 '}';
     }
 }

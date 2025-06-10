@@ -77,8 +77,13 @@ public class FilmFacade {
                         ? film.getBandeAnnonces().stream()
                         .map(BandeAnnonce::getUrl)
                         .collect(Collectors.toList())
-                        : null
-                );
+                        : null,
+                film.getCopies() != null ?
+                        film.getCopies().stream()
+                                .filter(copie -> "Disponible".equals(copie.getDomaineCopie().getEtat()))
+                                .count() : 0
+        );
+
 
     }
 }

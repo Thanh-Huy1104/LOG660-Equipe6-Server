@@ -20,7 +20,6 @@ public class FilmResource {
     @Path("/{id}")
     public Response getFilmById(@PathParam("id") String id) {
         FilmDetailDTO dto = filmFacade.getFilmById(id);
-        System.out.println(dto.toString());
         return (dto != null)
                 ? Response.ok(dto).build()
                 : Response.status(Response.Status.NOT_FOUND).entity("Film introuvable").build();

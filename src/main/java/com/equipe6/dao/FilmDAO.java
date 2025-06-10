@@ -20,6 +20,8 @@ public class FilmDAO {
                             "LEFT JOIN FETCH f.genres " +
                             "LEFT JOIN FETCH f.paysProduction " +
                             "LEFT JOIN FETCH f.bandeAnnonces " +
+                            "LEFT JOIN FETCH f.copies c " +
+                            "LEFT JOIN FETCH c.domaineCopie " +
                             "WHERE f.idFilm = :id", Film.class
             );
             query.setParameter("id", id);

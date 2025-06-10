@@ -4,6 +4,7 @@ import com.equipe6.model.Client;
 import com.equipe6.util.HibernateUtil;
 import org.hibernate.Session;
 import java.util.List;
+import java.util.Optional;
 
 public class ClientDAO {
     public Client findById(String id) {
@@ -28,5 +29,17 @@ public class ClientDAO {
                     Client.class
             ).list();
         }
+    }
+
+    public Optional<Client> findById(String clientId, Session session) {
+        Client client = session.createQuery(
+                        "SELECT c FROM Client c " +
+                                "LEFT JOIN FETCH c.forfait " +
+                                "LEFT JOIN FETCH c.locations " +
+                                "WHERE c.idUser = :clientId", Client.class)
+                .setParameter("clientId", clientId)
+                .uniqueResult();
+
+        return Optional.ofNullable(client);
     }
 }
