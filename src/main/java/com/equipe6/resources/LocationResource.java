@@ -17,6 +17,8 @@ import java.util.UUID;
 @Produces(MediaType.APPLICATION_JSON)
 public class LocationResource {
 
+
+
     @POST
     public Response louerFilm(
             @FormParam("filmId") String filmId,

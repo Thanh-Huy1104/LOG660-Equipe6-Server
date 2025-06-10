@@ -3,7 +3,6 @@ package com.equipe6.dao;
 import com.equipe6.model.Film;
 import com.equipe6.util.HibernateUtil;
 import org.hibernate.Session;
-import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 
 import java.util.*;
@@ -20,41 +19,11 @@ public class FilmDAO {
                             "LEFT JOIN FETCH f.scenaristes " +
                             "LEFT JOIN FETCH f.genres " +
                             "LEFT JOIN FETCH f.paysProduction " +
+                            "LEFT JOIN FETCH f.bandeAnnonces " +
                             "WHERE f.idFilm = :id", Film.class
             );
             query.setParameter("id", id);
             return query.uniqueResult();
-        }
-    }
-
-    public void save(Film film) {
-        Transaction transaction = null;
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            transaction = session.beginTransaction();
-
-            if (film.getIdFilm() == null) {
-                session.persist(film);
-            } else {
-                session.merge(film);
-            }
-
-            transaction.commit();
-        } catch (Exception e) {
-            if (transaction != null) transaction.rollback();
-            throw e;
-        }
-    }
-
-    public void delete(Film film) {
-        Transaction transaction = null;
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            transaction = session.beginTransaction();
-            Film managed = session.merge(film);
-            session.remove(managed);
-            transaction.commit();
-        } catch (Exception e) {
-            if (transaction != null) transaction.rollback();
-            throw e;
         }
     }
 
@@ -65,13 +34,12 @@ public class FilmDAO {
             List<String> conditions = new ArrayList<>();
             Map<String, Object> queryParams = new HashMap<>();
 
-            // Always fetch required relationships
+            // Always fetch required relationships else LAZY_LOADING_EXCEPTION
             joins.add("LEFT JOIN FETCH f.realisateur r");
             joins.add("LEFT JOIN FETCH f.roles role");
             joins.add("LEFT JOIN FETCH role.acteur");
-            joins.add("LEFT JOIN FETCH f.scenaristes");
             joins.add("LEFT JOIN FETCH f.genres g");
-            joins.add("LEFT JOIN FETCH f.paysProduction");
+            joins.add("LEFT JOIN FETCH f.paysProduction p");
 
             // Filters
             if (params.containsKey("titre")) {
@@ -104,13 +72,11 @@ public class FilmDAO {
                 queryParams.put("genres", Arrays.asList(params.get("genre")));
             }
 
-            // need to test
             if (params.containsKey("realisateur")) {
                 conditions.add("LOWER(r.nom) LIKE :realisateur");
                 queryParams.put("realisateur", "%" + params.get("realisateur")[0].toLowerCase()+ "%");
             }
 
-            // need to test
             if (params.containsKey("acteur")) {
                 conditions.add("LOWER(role.acteur.nom) LIKE :acteur");
                 queryParams.put("acteur", "%" + params.get("acteur")[0].toLowerCase() + "%");

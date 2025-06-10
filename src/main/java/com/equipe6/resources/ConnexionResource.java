@@ -20,7 +20,7 @@ public class ConnexionResource {
     ) {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             Query<Client> query = session.createQuery(
-                    "SELECT c FROM Client c JOIN c.utilisateur u WHERE u.courriel = :email AND u.motDePasse = :pwd",
+                    "SELECT c FROM Client c LEFT JOIN c.utilisateur u WHERE u.courriel = :email AND u.motDePasse = :pwd",
                     Client.class
             );
             query.setParameter("email", email);

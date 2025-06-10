@@ -12,11 +12,7 @@ public class FilmDTO {
     private int duree;
     private String resume;
     private String affiche;
-
     private List<String> genres;
-//    private List<String> pays;
-    private List<String> scenaristes;
-    private List<RoleDTO> roles;
 
     public FilmDTO() {}
 
@@ -58,10 +54,4 @@ public class FilmDTO {
 
     public List<String> getGenres() { return genres; }
     public void setGenres(List<String> genres) { this.genres = genres; }
-//
-//    public List<String> getPays() { return pays; }
-//    public void setPays(List<String> pays) { this.pays = pays; }
-
-//    public List<RoleDTO> getRoles() { return roles; }
-//    public void setRoles(List<RoleDTO> roles) { this.roles = roles; }
 }

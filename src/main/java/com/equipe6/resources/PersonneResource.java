@@ -1,34 +1,23 @@
 package com.equipe6.resources;
 
-import com.equipe6.model.Personne;
-import com.equipe6.util.HibernateUtil;
+import com.equipe6.dto.PersonneDTO;
+import com.equipe6.facade.PersonneFacade;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.*;
-
-import org.hibernate.Session;
 
 @Path("/personnes")
 @Produces(MediaType.APPLICATION_JSON)
 public class PersonneResource {
 
+    private final PersonneFacade personneFacade = new PersonneFacade();
+
     @GET
     @Path("/{id}")
     public Response getPersonneById(@PathParam("id") String id) {
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            Personne personne = session.get(Personne.class, id);
-            if (personne != null) {
-                return Response.ok(personne).build();
-            } else {
-                return Response.status(Response.Status.NOT_FOUND)
-                        .entity("Personne introuvable")
-                        .build();
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            return Response.serverError()
-                    .entity("Erreur lors de la récupération de la personne")
-                    .build();
-        }
+        PersonneDTO dto = personneFacade.getPersonneById(id);
+        return (dto != null)
+                ? Response.ok(dto).build()
+                : Response.status(Response.Status.NOT_FOUND).entity("Personne introuvable").build();
     }
 
     // Optional: health check

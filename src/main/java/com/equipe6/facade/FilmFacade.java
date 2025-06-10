@@ -2,7 +2,9 @@ package com.equipe6.facade;
 
 import com.equipe6.dao.FilmDAO;
 import com.equipe6.dto.FilmDTO;
-import com.equipe6.model.Film;
+import com.equipe6.dto.FilmDetailDTO;
+import com.equipe6.dto.RoleDTO;
+import com.equipe6.model.*;
 
 import java.util.List;
 import java.util.Map;
@@ -12,19 +14,19 @@ public class FilmFacade {
 
     private final FilmDAO filmDAO = new FilmDAO();
 
-    public FilmDTO getFilmById(String id) {
+    public FilmDetailDTO getFilmById(String id) {
         Film film = filmDAO.findById(id);
-        return (film != null) ? toDTO(film) : null;
+        return (film != null) ? toFilmDetailDTO(film) : null;
     }
 
     public List<FilmDTO> searchFilms(Map<String, String[]> params) {
         List<Film> films = filmDAO.searchByParams(params);
         return films.stream()
-                .map(this::toDTO)
+                .map(this::toFilmDTO)
                 .collect(Collectors.toList());
     }
 
-    private FilmDTO toDTO(Film film) {
+    private FilmDTO toFilmDTO(Film film) {
         return new FilmDTO(
                 film.getIdFilm(),                                // idFilm
                 film.getTitre(),                                 // titre
@@ -35,9 +37,48 @@ public class FilmFacade {
                 film.getAffiche(),                               // affiche// nomRealisateur
                 film.getGenres() != null
                         ? film.getGenres().stream()
-                                .map(genre -> genre.getNomGenre())
-                                .collect(Collectors.toList())
+                        .map(Genre::getNomGenre)
+                        .collect(Collectors.toList())
                         : null
         );
+    }
+
+    private FilmDetailDTO toFilmDetailDTO(Film film) {
+        return new FilmDetailDTO(
+                film.getIdFilm(),                                 // idFilm
+                film.getTitre(),                                 // titre
+                film.getAnneeSortie(),                           // anneeSortie
+                film.getLangue(),                                // langue
+                film.getDuree(),                                 // duree
+                film.getResume(),                                // resume
+                film.getAffiche(),
+                film.getRealisateur().getNom(),
+                film.getGenres() != null
+                        ? film.getGenres().stream()
+                        .map(Genre::getNomGenre)
+                        .collect(Collectors.toList())
+                        : null,
+                film.getPaysProduction() != null
+                        ? film.getPaysProduction().stream()
+                        .map(PaysProduction::getNomPays)
+                        .collect(Collectors.toList())
+                        : null,
+                film.getScenaristes() != null
+                        ? film.getScenaristes().stream()
+                        .map(Scenariste::getNom)
+                        .collect(Collectors.toList())
+                        : null,
+                film.getRoles() != null
+                        ? film.getRoles().stream()
+                        .map(role -> new RoleDTO(role.getActeur().getIdPersonne(), role.getActeur().getNom(), role.getPersonnage()))
+                        .collect(Collectors.toList())
+                        : null,
+                film.getBandeAnnonces() != null
+                        ? film.getBandeAnnonces().stream()
+                        .map(BandeAnnonce::getUrl)
+                        .collect(Collectors.toList())
+                        : null
+                );
+
     }
 }

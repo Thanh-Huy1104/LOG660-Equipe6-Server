@@ -11,7 +11,6 @@ public class ClientDTO {
     private String courriel;
     private String codeForfait;
 
-    public ClientDTO() {}
     public ClientDTO(Client client) {
         Utilisateur u = client.getUtilisateur();
         this.idUser = u.getIdUser();

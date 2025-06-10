@@ -1,8 +1,8 @@
 package com.equipe6.resources;
 
 import com.equipe6.dto.FilmDTO;
+import com.equipe6.dto.FilmDetailDTO;
 import com.equipe6.facade.FilmFacade;
-import com.equipe6.model.Film;
 
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.*;
@@ -19,7 +19,8 @@ public class FilmResource {
     @GET
     @Path("/{id}")
     public Response getFilmById(@PathParam("id") String id) {
-        FilmDTO dto = filmFacade.getFilmById(id);
+        FilmDetailDTO dto = filmFacade.getFilmById(id);
+        System.out.println(dto.toString());
         return (dto != null)
                 ? Response.ok(dto).build()
                 : Response.status(Response.Status.NOT_FOUND).entity("Film introuvable").build();
