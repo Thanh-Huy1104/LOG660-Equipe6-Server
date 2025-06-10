@@ -1,10 +1,8 @@
 package com.equipe6.dto;
 
-import com.equipe6.model.Genre;
-
 import java.util.List;
 
-public class FilmDTO {
+public class FilmDetailDTO {
     private String idFilm;
     private String titre;
     private int anneeSortie;
@@ -12,18 +10,19 @@ public class FilmDTO {
     private int duree;
     private String resume;
     private String affiche;
+    private String nomRealisateur;
 
-    private List<String> genres;
+    //    private List<String> genres;
 //    private List<String> pays;
     private List<String> scenaristes;
     private List<RoleDTO> roles;
 
-    public FilmDTO() {}
+    public FilmDetailDTO() {}
 
-    public FilmDTO(String idFilm, String titre, int anneeSortie, String langue, int duree,
-                   String resume, String affiche,
-                   List<String> genres
-                   ) {
+    public FilmDetailDTO(String idFilm, String titre, int anneeSortie, String langue, int duree,
+                   String resume, String affiche, String nomRealisateur,
+                   List<String> scenaristes,
+                   List<RoleDTO> roles) {
         this.idFilm = idFilm;
         this.titre = titre;
         this.anneeSortie = anneeSortie;
@@ -31,7 +30,11 @@ public class FilmDTO {
         this.duree = duree;
         this.resume = resume;
         this.affiche = affiche;
-        this.genres = genres;
+        this.nomRealisateur = nomRealisateur;
+//        this.genres = genres;
+//        this.pays = pays;
+        this.scenaristes = scenaristes;
+        this.roles = roles;
     }
 
     // Getters and Setters
@@ -56,12 +59,18 @@ public class FilmDTO {
     public String getAffiche() { return affiche; }
     public void setAffiche(String affiche) { this.affiche = affiche; }
 
-    public List<String> getGenres() { return genres; }
-    public void setGenres(List<String> genres) { this.genres = genres; }
+    public String getNomRealisateur() { return nomRealisateur; }
+    public void setNomRealisateur(String nomRealisateur) { this.nomRealisateur = nomRealisateur; }
+
+//    public List<String> getGenres() { return genres; }
+//    public void setGenres(List<String> genres) { this.genres = genres; }
 //
 //    public List<String> getPays() { return pays; }
 //    public void setPays(List<String> pays) { this.pays = pays; }
 
-//    public List<RoleDTO> getRoles() { return roles; }
-//    public void setRoles(List<RoleDTO> roles) { this.roles = roles; }
+    public List<String> getScenaristes() { return scenaristes; }
+    public void setScenaristes(List<String> scenaristes) { this.scenaristes = scenaristes; }
+
+    public List<RoleDTO> getRoles() { return roles; }
+    public void setRoles(List<RoleDTO> roles) { this.roles = roles; }
 }

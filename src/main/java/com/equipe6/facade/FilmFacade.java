@@ -32,22 +32,12 @@ public class FilmFacade {
                 film.getLangue(),                                // langue
                 film.getDuree(),                                 // duree
                 film.getResume(),                                // resume
-                film.getAffiche(),                               // affiche
-                film.getRealisateur() != null
-                        ? film.getRealisateur().getNom()
-                        : null,                                      // nomRealisateur
-                // scenaristes
-//                film.getScenaristes().stream()
-//                        .map(s -> s.getNom())
-//                        .collect(Collectors.toList()),
-
-                // roles
-                film.getRoles().stream()
-                        .map(role -> new com.equipe6.dto.RoleDTO(
-                                role.getActeur() != null ? role.getActeur().getNom() : null,
-                                role.getPersonnage()
-                        ))
-                        .collect(Collectors.toList())
+                film.getAffiche(),                               // affiche// nomRealisateur
+                film.getGenres() != null
+                        ? film.getGenres().stream()
+                                .map(genre -> genre.getNomGenre())
+                                .collect(Collectors.toList())
+                        : null
         );
     }
 }

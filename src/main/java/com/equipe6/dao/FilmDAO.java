@@ -70,7 +70,7 @@ public class FilmDAO {
             joins.add("LEFT JOIN FETCH f.roles role");
             joins.add("LEFT JOIN FETCH role.acteur");
             joins.add("LEFT JOIN FETCH f.scenaristes");
-            joins.add("LEFT JOIN FETCH f.genres");
+            joins.add("LEFT JOIN FETCH f.genres g");
             joins.add("LEFT JOIN FETCH f.paysProduction");
 
             // Filters
@@ -102,6 +102,18 @@ public class FilmDAO {
             if (params.containsKey("genre")) {
                 conditions.add("g.nomGenre IN (:genres)");
                 queryParams.put("genres", Arrays.asList(params.get("genre")));
+            }
+
+            // need to test
+            if (params.containsKey("realisateur")) {
+                conditions.add("LOWER(r.nom) LIKE :realisateur");
+                queryParams.put("realisateur", "%" + params.get("realisateur")[0].toLowerCase()+ "%");
+            }
+
+            // need to test
+            if (params.containsKey("acteur")) {
+                conditions.add("LOWER(role.acteur.nom) LIKE :acteur");
+                queryParams.put("acteur", "%" + params.get("acteur")[0].toLowerCase() + "%");
             }
 
             for (String join : joins) {
