@@ -28,13 +28,13 @@ public class FilmFacade {
 
     private FilmDTO toFilmDTO(Film film) {
         return new FilmDTO(
-                film.getIdFilm(),                                // idFilm
-                film.getTitre(),                                 // titre
-                film.getAnneeSortie(),                           // anneeSortie
-                film.getLangue(),                                // langue
-                film.getDuree(),                                 // duree
-                film.getResume(),                                // resume
-                film.getAffiche(),                               // affiche// nomRealisateur
+                film.getIdFilm(),
+                film.getTitre(),
+                film.getAnneeSortie(),
+                film.getLangue(),
+                film.getDuree(),
+                film.getResume(),
+                film.getAffiche(),
                 film.getGenres() != null
                         ? film.getGenres().stream()
                         .map(Genre::getNomGenre)
@@ -45,12 +45,12 @@ public class FilmFacade {
 
     private FilmDetailDTO toFilmDetailDTO(Film film) {
         return new FilmDetailDTO(
-                film.getIdFilm(),                                 // idFilm
-                film.getTitre(),                                 // titre
-                film.getAnneeSortie(),                           // anneeSortie
-                film.getLangue(),                                // langue
-                film.getDuree(),                                 // duree
-                film.getResume(),                                // resume
+                film.getIdFilm(),
+                film.getTitre(),
+                film.getAnneeSortie(),
+                film.getLangue(),
+                film.getDuree(),
+                film.getResume(),
                 film.getAffiche(),
                 film.getRealisateur().getNom(),
                 film.getGenres() != null
