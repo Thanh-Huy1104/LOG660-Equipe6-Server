@@ -42,4 +42,16 @@ public class ClientDAO {
 
         return Optional.ofNullable(client);
     }
+
+    public Client findByEmailAndPassword(String email, String password) {
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            return session.createQuery(
+                    "SELECT c FROM Client c LEFT JOIN FETCH c.utilisateur u WHERE u.courriel = :email AND u.motDePasse = :pwd",
+                    Client.class
+            )
+            .setParameter("email", email)
+            .setParameter("pwd", password)
+            .uniqueResult();
+        }
+    }
 }

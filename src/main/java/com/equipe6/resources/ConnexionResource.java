@@ -1,15 +1,14 @@
 package com.equipe6.resources;
 
-import com.equipe6.model.Client;
-import com.equipe6.util.HibernateUtil;
+import com.equipe6.dto.ClientLoginDTO;
+import com.equipe6.facade.ClientFacade;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.*;
 
-import org.hibernate.Session;
-import org.hibernate.query.Query;
-
 @Path("/auth")
 public class ConnexionResource {
+
+    private final ClientFacade clientFacade = new ClientFacade();
 
     @POST
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
@@ -18,17 +17,10 @@ public class ConnexionResource {
             @FormParam("email") String email,
             @FormParam("password") String password
     ) {
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            Query<Client> query = session.createQuery(
-                    "SELECT c FROM Client c LEFT JOIN FETCH c.utilisateur u WHERE u.courriel = :email AND u.motDePasse = :pwd",
-                    Client.class
-            );
-            query.setParameter("email", email);
-            query.setParameter("pwd", password);
-            Client client = query.uniqueResult();
-
+        try {
+            ClientLoginDTO client = clientFacade.login(email, password);
             if (client != null) {
-                return Response.ok().build(); // return JSON object of client
+                return Response.ok(client).build();
             } else {
                 return Response.status(Response.Status.UNAUTHORIZED)
                         .entity("Invalid email or password")
