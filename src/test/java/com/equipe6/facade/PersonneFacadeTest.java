@@ -54,4 +54,34 @@ class PersonneFacadeTest {
 
         assertNull(result);
     }
+
+    @Test
+    void getPersonneByName_shouldReturnDTO_whenPersonExists() {
+        Personne personne = new Personne();
+        personne.setNom("Nora Arnezeder");
+        personne.setDateNaissance(new Date(92, 9, 8)); // 1992-10-08
+        personne.setLieuNaissance("Paris");
+        personne.setPhoto("nora.jpg");
+        personne.setBiographie("Actrice française.");
+
+        when(personneDAO.findByName("Nora Arnezeder")).thenReturn(personne);
+
+        PersonneDTO result = personneFacade.getPersonneByName("Nora Arnezeder");
+
+        assertNotNull(result);
+        assertEquals("Nora Arnezeder", result.getNom());
+        assertEquals("Paris", result.getLieuNaissance());
+        assertEquals("nora.jpg", result.getPhoto());
+        assertEquals("Actrice française.", result.getBiographie());
+        assertNotNull(result.getDateNaissance());
+    }
+
+    @Test
+    void getPersonneByName_shouldReturnNull_whenPersonNotFound() {
+        when(personneDAO.findByName("Unknown")).thenReturn(null);
+
+        PersonneDTO result = personneFacade.getPersonneByName("Unknown");
+
+        assertNull(result);
+    }
 }

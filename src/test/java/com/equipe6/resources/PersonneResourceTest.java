@@ -57,4 +57,36 @@ class PersonneResourceTest {
         assertEquals(404, response.getStatus());
         assertEquals("Personne introuvable", response.getEntity());
     }
+
+    @Test
+    void getPersonneByName_shouldReturn200_whenPersonExists() {
+        String name = "Albert Einstein";
+        PersonneDTO dto = new PersonneDTO(
+                "Albert Einstein",
+                "1879-03-14",
+                "Ulm",
+                "einstein.jpg",
+                "Physicien théoricien"
+        );
+
+        when(personneFacadeMock.getPersonneByName(name)).thenReturn(dto);
+
+        Response response = personneResource.getPersonneByName(name);
+
+        assertEquals(200, response.getStatus());
+        PersonneDTO result = (PersonneDTO) response.getEntity();
+        assertNotNull(result);
+        assertEquals("Albert Einstein", result.getNom());
+        assertEquals("Ulm", result.getLieuNaissance());
+    }
+
+    @Test
+    void getPersonneByName_shouldReturn404_whenPersonNotFound() {
+        when(personneFacadeMock.getPersonneByName("Inconnu")).thenReturn(null);
+
+        Response response = personneResource.getPersonneByName("Inconnu");
+
+        assertEquals(404, response.getStatus());
+        assertEquals("Personne non trouvée par nom", response.getEntity());
+    }
 }
