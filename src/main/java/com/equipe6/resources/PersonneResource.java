@@ -29,6 +29,15 @@ public class PersonneResource {
                 : Response.status(Response.Status.NOT_FOUND).entity("Personne introuvable").build();
     }
 
+    @GET
+    @Path("/name/{name}")
+    public Response getPersonneByName(@PathParam("name") String name) {
+        PersonneDTO dto = personneFacade.getPersonneByName(name);
+        return (dto != null)
+                ? Response.ok(dto).build()
+                : Response.status(Response.Status.NOT_FOUND).entity("Personne non trouvée par nom").build();
+    }
+
     // Optional: health check
     @GET
     @Path("/ping")

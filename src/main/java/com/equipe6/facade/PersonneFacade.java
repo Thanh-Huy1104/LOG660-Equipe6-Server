@@ -17,6 +17,12 @@ public class PersonneFacade {
         return (personne != null) ? getPersonneDTO(personne) : null;
     }
 
+    public PersonneDTO getPersonneByName(String name) {
+        Personne personne = personneDAO.findByName(name);
+        return (personne != null) ? getPersonneDTO(personne) : null;
+    }
+
+
     public PersonneDTO getPersonneDTO(Personne personne) {
         return new PersonneDTO(
                 personne.getNom(),

@@ -17,4 +17,13 @@ public class PersonneDAO {
             return query.uniqueResult();
         }
     }
+
+    public Personne findByName(String name) {
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            return session.createQuery(
+                            "FROM Personne p WHERE LOWER(TRIM(p.nom)) = :name", Personne.class)
+                    .setParameter("name", name.toLowerCase().trim())
+                    .uniqueResult();
+        }
+    }
 }
