@@ -12,7 +12,11 @@ import java.util.stream.Collectors;
 
 public class FilmFacade {
 
-    private final FilmDAO filmDAO = new FilmDAO();
+    private final FilmDAO filmDAO;
+
+    public FilmFacade(FilmDAO filmDAO) {
+        this.filmDAO = filmDAO;
+    }
 
     public FilmDetailDTO getFilmById(String id) {
         Film film = filmDAO.findById(id);

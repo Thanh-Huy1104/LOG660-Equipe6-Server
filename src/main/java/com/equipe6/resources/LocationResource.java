@@ -1,5 +1,7 @@
 package com.equipe6.resources;
 
+import com.equipe6.dao.ClientDAO;
+import com.equipe6.dao.LocationDAO;
 import com.equipe6.dto.LocationDTO;
 import com.equipe6.facade.LocationFacade;
 import jakarta.ws.rs.*;
@@ -9,7 +11,15 @@ import jakarta.ws.rs.core.*;
 @Produces(MediaType.APPLICATION_JSON)
 public class LocationResource {
 
-    private final LocationFacade locationFacade = new LocationFacade();
+    private final LocationFacade locationFacade;
+
+    public LocationResource() {
+        this.locationFacade = new LocationFacade(new LocationDAO(), new ClientDAO());
+    }
+
+    public LocationResource(LocationFacade locationFacade) {
+        this.locationFacade = locationFacade;
+    }
 
     @POST
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)

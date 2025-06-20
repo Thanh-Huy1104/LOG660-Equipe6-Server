@@ -8,17 +8,11 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class ClientFacade {
-    private final ClientDAO clientDAO = new ClientDAO();
 
-    public ClientDTO getClientById(String id) {
-        Client client = clientDAO.findById(id);
-        return (client != null) ? new ClientDTO(client) : null;
-    }
+    private final ClientDAO clientDAO;
 
-    public List<ClientDTO> getAllClients() {
-        return clientDAO.findAll().stream()
-                .map(ClientDTO::new)
-                .collect(Collectors.toList());
+    public ClientFacade(ClientDAO clientDAO) {
+        this.clientDAO = clientDAO;
     }
 
     public ClientLoginDTO login(String email, String password) {
@@ -32,5 +26,4 @@ public class ClientFacade {
                 client.getUtilisateur().getCourriel()
         );
     }
-
 }

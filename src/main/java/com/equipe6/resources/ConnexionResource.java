@@ -1,5 +1,6 @@
 package com.equipe6.resources;
 
+import com.equipe6.dao.ClientDAO;
 import com.equipe6.dto.ClientLoginDTO;
 import com.equipe6.facade.ClientFacade;
 import jakarta.ws.rs.*;
@@ -8,7 +9,15 @@ import jakarta.ws.rs.core.*;
 @Path("/auth")
 public class ConnexionResource {
 
-    private final ClientFacade clientFacade = new ClientFacade();
+    private final ClientFacade clientFacade;
+
+    public ConnexionResource() {
+        this.clientFacade = new ClientFacade(new ClientDAO());
+    }
+
+    public ConnexionResource(ClientFacade clientFacade) {
+        this.clientFacade = clientFacade;
+    }
 
     @POST
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)

@@ -3,9 +3,11 @@ package com.equipe6.dao;
 import com.equipe6.model.Copie;
 import com.equipe6.model.DomaineCopie;
 import com.equipe6.model.Location;
+import com.equipe6.util.HibernateUtil;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 
+import java.util.List;
 import java.util.Optional;
 
 public class LocationDAO {
@@ -50,4 +52,17 @@ public class LocationDAO {
         // Persist the new location record.
         session.persist(location);
     }
+
+    public List<Location> findByClientIdWithFilm(String clientId) {
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            return session.createQuery(
+                            "SELECT DISTINCT l FROM Location l " +
+                                    "LEFT JOIN FETCH l.copie c " +
+                                    "LEFT JOIN FETCH c.film f " +
+                                    "WHERE l.client.idUser = :clientId", Location.class)
+                    .setParameter("clientId", clientId)
+                    .list();
+        }
+    }
+
 }

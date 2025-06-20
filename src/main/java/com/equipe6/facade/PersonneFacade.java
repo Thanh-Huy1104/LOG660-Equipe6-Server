@@ -6,7 +6,11 @@ import com.equipe6.model.Personne;
 
 public class PersonneFacade {
 
-    private final PersonneDAO personneDAO = new PersonneDAO();
+    private final PersonneDAO personneDAO;
+
+    public PersonneFacade(PersonneDAO personneDAO) {
+        this.personneDAO = personneDAO;
+    }
 
     public PersonneDTO getPersonneById(String id) {
         Personne personne = personneDAO.findById(id);

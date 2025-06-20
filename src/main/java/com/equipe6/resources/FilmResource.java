@@ -1,5 +1,6 @@
 package com.equipe6.resources;
 
+import com.equipe6.dao.FilmDAO;
 import com.equipe6.dto.FilmDTO;
 import com.equipe6.dto.FilmDetailDTO;
 import com.equipe6.facade.FilmFacade;
@@ -14,7 +15,15 @@ import java.util.stream.Collectors;
 @Produces(MediaType.APPLICATION_JSON)
 public class FilmResource {
 
-    private final FilmFacade filmFacade = new FilmFacade();
+    private final FilmFacade filmFacade;
+
+    public FilmResource() {
+        this.filmFacade = new FilmFacade(new FilmDAO());
+    }
+
+    public FilmResource(FilmFacade filmFacade) {
+        this.filmFacade = filmFacade;
+    }
 
     @GET
     @Path("/{id}")

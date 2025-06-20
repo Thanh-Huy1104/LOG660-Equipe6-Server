@@ -1,5 +1,6 @@
 package com.equipe6.resources;
 
+import com.equipe6.dao.PersonneDAO;
 import com.equipe6.dto.PersonneDTO;
 import com.equipe6.facade.PersonneFacade;
 import jakarta.ws.rs.*;
@@ -9,7 +10,15 @@ import jakarta.ws.rs.core.*;
 @Produces(MediaType.APPLICATION_JSON)
 public class PersonneResource {
 
-    private final PersonneFacade personneFacade = new PersonneFacade();
+    private final PersonneFacade personneFacade;
+
+    public PersonneResource() {
+        this.personneFacade = new PersonneFacade(new PersonneDAO());
+    }
+
+    public PersonneResource(PersonneFacade personneFacade) {
+        this.personneFacade = personneFacade;
+    }
 
     @GET
     @Path("/{id}")

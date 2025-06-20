@@ -15,8 +15,13 @@ import java.util.concurrent.TimeUnit;
 
 public class LocationFacade {
 
-    private final LocationDAO locationDAO = new LocationDAO();
-    private final ClientDAO clientDAO = new ClientDAO();
+    private final LocationDAO locationDAO;
+    private final ClientDAO clientDAO;
+
+    public LocationFacade(LocationDAO locationDAO, ClientDAO clientDAO) {
+        this.locationDAO = locationDAO;
+        this.clientDAO = clientDAO;
+    }
 
     /**
      * Manages the business logic for renting a film.
@@ -69,7 +74,7 @@ public class LocationFacade {
             );
             // 3. Check rental limit
             if (nombreLocations >= limiteLocations) {
-                throw new WebApplicationException("Forfait limit reached.", 403);
+                throw new WebApplicationException("Limite du forfait atteinte.", 403);
             }
 
             // 4. Find available copy
