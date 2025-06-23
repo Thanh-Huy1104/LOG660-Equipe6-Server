@@ -20,7 +20,7 @@ public class Utilisateur {
     @Column(name = "\"courriel\"", nullable = false, unique = true, length = 255)
     private String courriel;
 
-    @Column(name = "\"motDePasse\"", nullable = false, length = 50)
+    @Column(name = "\"motDePasse\"", nullable = false, length = 72)
     private String motDePasse;
 
     @Column(name = "\"telephone\"", nullable = false, length = 20)
