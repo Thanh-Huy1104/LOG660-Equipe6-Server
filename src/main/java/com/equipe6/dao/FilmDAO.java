@@ -70,17 +70,17 @@ public class FilmDAO {
             }
 
             if (params.containsKey("langue")) {
-                conditions.add("LOWER(f.langue) IN (:langues)");
+                conditions.add("f.langue IN (:langues)");
                 queryParams.put("langues", Arrays.asList(params.get("langue")));
             }
 
             if (params.containsKey("pays")) {
-                conditions.add("LOWER(p.nomPays) IN (:pays)");
+                conditions.add("p.nomPays IN (:pays)");
                 queryParams.put("pays", Arrays.asList(params.get("pays")));
             }
 
             if (params.containsKey("genre")) {
-                conditions.add("LOWER(g.nomGenre) IN (:genres)");
+                conditions.add("g.nomGenre IN (:genres)");
                 queryParams.put("genres", Arrays.asList(params.get("genre")));
             }
 
